@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "shooty"
+version = "0.0.0.1"
+description = "Shooty is a python game written for Hacktober 2021."
+authors = ["wake-code <87005812+wake-code@users.noreply.github.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pygame = "^2.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
