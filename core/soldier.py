@@ -2,15 +2,16 @@ import pygame.sprite
 
 
 class Soldier(pygame.sprite.Sprite):
-    def __init__(self, surface, x, y, scale, speed):
+    def __init__(self, surface, char_type: str, x: int, y: int, scale: int, speed: int):
         pygame.sprite.Sprite.__init__(self)
 
         self.surface = surface
+        self.char_type = char_type
         self.speed = speed
         self.direction = 1  # Faces right at startup.
         self.flip = False
 
-        img = pygame.image.load("assets/player/Idle/0.png")
+        img = pygame.image.load(f"assets/{self.char_type}/Idle/0.png")
 
         self.image = pygame.transform.scale(
             img, (int(img.get_width() * scale), int(img.get_height() * scale))
