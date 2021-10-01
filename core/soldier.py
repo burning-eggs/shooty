@@ -10,12 +10,19 @@ class Soldier(pygame.sprite.Sprite):
         self.speed = speed
         self.direction = 1  # Faces right at startup.
         self.flip = False
+        self.animation_list = []
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
 
-        img = pygame.image.load(f"assets/{self.char_type}/Idle/0.png")
+        for i in range(5):
+            img = pygame.image.load(f"assets/{self.char_type}/Idle/{i}.png")
+            img = pygame.transform.scale(
+                img, (int(img.get_width() * scale), int(img.get_height() * scale))
+            )
 
-        self.image = pygame.transform.scale(
-            img, (int(img.get_width() * scale), int(img.get_height() * scale))
-        )
+            self.animation_list.append(img)
+
+        self.image = self.animation_list[self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -37,6 +44,18 @@ class Soldier(pygame.sprite.Sprite):
 
         self.rect.x += dx
         self.rect.y += dy
+
+    def update_animation(self):
+        ANIMATION_COOLDOWN = 100
+
+        self.image = self.animation_list[self.frame_index]
+
+        if (pygame.time.get_ticks() - self.update_time) > ANIMATION_COOLDOWN:
+            self.update_time = pygame.time.get_ticks()
+            self.frame_index += 1
+
+        if self.frame_index >= len(self.animation_list):
+            self.frame_index = 0
 
     def draw(self):
         self.surface.blit(

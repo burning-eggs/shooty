@@ -32,6 +32,7 @@ while run:
 
     clock.tick(FPS)
 
+    player.update_animation()
     player.draw()
     player.move(moving_left, moving_right)
 
