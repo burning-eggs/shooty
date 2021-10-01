@@ -9,7 +9,7 @@ moving_left = False
 moving_right = False
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-player = Soldier(200, 200, 3)
+player = Soldier(screen, 200, 200, 3)
 pygame.display.set_caption("Shooty")
 
 run = True
@@ -27,6 +27,9 @@ while run:
 
             if event.key == pygame.K_d:
                 moving_right = True
+
+            if event.key == pygame.K_ESCAPE:
+                run = False
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
