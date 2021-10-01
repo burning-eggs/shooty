@@ -11,8 +11,11 @@ class Soldier(pygame.sprite.Sprite):
         self.direction = 1  # Faces right at startup.
         self.flip = False
         self.animation_list = []
+        self.action = 0
         self.frame_index = 0
         self.update_time = pygame.time.get_ticks()
+
+        temp_list = []
 
         for i in range(5):
             img = pygame.image.load(f"assets/{self.char_type}/Idle/{i}.png")
@@ -20,9 +23,23 @@ class Soldier(pygame.sprite.Sprite):
                 img, (int(img.get_width() * scale), int(img.get_height() * scale))
             )
 
-            self.animation_list.append(img)
+            temp_list.append(img)
 
-        self.image = self.animation_list[self.frame_index]
+        self.animation_list.append(temp_list)
+
+        temp_list = []
+
+        for i in range(6):
+            img = pygame.image.load(f"assets/{self.char_type}/Run/{i}.png")
+            img = pygame.transform.scale(
+                img, (int(img.get_width() * scale), int(img.get_height() * scale))
+            )
+
+            temp_list.append(img)
+
+        self.animation_list.append(temp_list)
+
+        self.image = self.animation_list[self.action][self.frame_index]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -48,14 +65,20 @@ class Soldier(pygame.sprite.Sprite):
     def update_animation(self):
         ANIMATION_COOLDOWN = 100
 
-        self.image = self.animation_list[self.frame_index]
+        self.image = self.animation_list[self.action][self.frame_index]
 
         if (pygame.time.get_ticks() - self.update_time) > ANIMATION_COOLDOWN:
             self.update_time = pygame.time.get_ticks()
             self.frame_index += 1
 
-        if self.frame_index >= len(self.animation_list):
+        if self.frame_index >= len(self.animation_list[self.action]):
             self.frame_index = 0
+
+    def update_action(self, new_action: int):
+        if new_action != self.action:
+            self.action = new_action
+            self.frame_index = 0
+            self.update_time = pygame.time.get_ticks()
 
     def draw(self):
         self.surface.blit(
