@@ -7,6 +7,8 @@ class Soldier(pygame.sprite.Sprite):
 
         self.surface = surface
         self.speed = speed
+        self.direction = 1  # Faces right at startup.
+        self.flip = False
 
         img = pygame.image.load("assets/player/Idle/0.png")
 
@@ -23,11 +25,19 @@ class Soldier(pygame.sprite.Sprite):
         if moving_left:
             dx = -self.speed
 
+            self.flip = True
+            self.direction = 0
+
         if moving_right:
             dx = self.speed
+
+            self.flip = False
+            self.direction = 1
 
         self.rect.x += dx
         self.rect.y += dy
 
     def draw(self):
-        self.surface.blit(self.image, self.rect)
+        self.surface.blit(
+            pygame.transform.flip(self.image, self.flip, False), self.rect
+        )
